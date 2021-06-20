@@ -15,7 +15,7 @@ import (
 
 // EDIT THIS
 var (
-	BaseURL      = "0.0.0.0"
+	BaseURL      = "https://apigolang7.herokuapp.com"
 	ClientID     = "BhWus13WIhI4HI7loycM42"
 	ClientSecret = "HJHgKSrqUuhIepCzNkCx7E82RSTN1m47dqPoS1Lf6VA"
 	port         = ":9090"
