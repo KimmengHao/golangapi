@@ -32,16 +32,16 @@ func Authorize(w http.ResponseWriter, req *http.Request) {
 	c.Redirect(w, req)
 }
 
-// func Callback(w http.ResponseWriter, req *http.Request) {
-// 	c, err := auth.New(ClientID, BaseURL+"/callback")
-// 	if err != nil {
-// 		fmt.Fprintf(w, "error:%v", err)
-// 		return
-// 	}
-// 	http.SetCookie(w, &http.Cookie{Name: "state", Value: c.State, Expires: time.Now().Add(60 * time.Second)})
+func Callback(w http.ResponseWriter, req *http.Request) {
+	c, err := auth.New(ClientID, BaseURL+"/callback")
+	if err != nil {
+		fmt.Fprintf(w, "error:%v", err)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{Name: "state", Value: c.State, Expires: time.Now().Add(60 * time.Second)})
 
-// 	fmt.Fprintf(w, "callback:")
-// }
+	fmt.Fprintf(w, "callback:")
+}
 
 func main() {
 	fmt.Println("Hello, world.")
@@ -53,6 +53,6 @@ func main() {
 	methods := handlers.AllowedOrigins([]string{"GET", "POST", "DELETE", "PUT"})
 	origins := handlers.AllowedOrigins([]string{"*"})
 	router.HandleFunc("/auth", Authorize)
-	// router.HandleFunc("/callback", Callback)
+	router.HandleFunc("/callback", Callback)
 	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(headers, methods, origins)(router)))
 }
