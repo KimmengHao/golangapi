@@ -18,11 +18,11 @@ var (
 	BaseURL      = "https://apigolang7.herokuapp.com"
 	ClientID     = "BhWus13WIhI4HI7loycM42"
 	ClientSecret = "HJHgKSrqUuhIepCzNkCx7E82RSTN1m47dqPoS1Lf6VA"
-	port         = ":9090"
+	// port         = ":9090"
 )
 
 func Authorize(w http.ResponseWriter, req *http.Request) {
-	c, err := auth.New(ClientID, BaseURL+port+"/callback")
+	c, err := auth.New(ClientID, BaseURL+"/callback")
 	if err != nil {
 		fmt.Fprintf(w, "error:%v", err)
 		return
@@ -46,7 +46,8 @@ func Callback(w http.ResponseWriter, req *http.Request) {
 func main() {
 	fmt.Println("Hello, world.")
 	godotenv.Load()
-	port = os.Getenv("PORT")
+
+	port := os.Getenv("PORT")
 
 	router := mux.NewRouter()
 	headers := handlers.AllowedOrigins([]string{"X-Requested-With", "Content-Type", "Authorization"})
