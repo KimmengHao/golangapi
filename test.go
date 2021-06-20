@@ -18,7 +18,7 @@ var (
 	BaseURL      = "0.0.0.0"
 	ClientID     = "BhWus13WIhI4HI7loycM42"
 	ClientSecret = "HJHgKSrqUuhIepCzNkCx7E82RSTN1m47dqPoS1Lf6VA"
-	port         = os.Getenv("PORT")
+	port         = ":9090"
 )
 
 func Authorize(w http.ResponseWriter, req *http.Request) {
