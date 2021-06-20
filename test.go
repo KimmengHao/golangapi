@@ -15,7 +15,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/utahta/go-linenotify/auth"
-	"github.com/utahta/go-linenotify/token"
+	token "github.com/utahta/go-linenotify/token"
 	"google.golang.org/api/iterator"
 )
 
