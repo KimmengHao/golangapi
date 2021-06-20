@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -106,23 +107,24 @@ func adddata(accessToken string) {
 
 }
 
-// func notificationtoline(response http.ResponseWriter, request *http.Request) {
+func notificationtoline(response http.ResponseWriter, request *http.Request) {
 
-// 	decoder := json.NewDecoder(request.Body)
+	decoder := json.NewDecoder(request.Body)
 
-// 	var numsData numsResponseData
+	var numsData numsResponseData
 
-// 	decoder.Decode(&numsData)
-// 	fmt.Println("numsData")
-// 	fmt.Println(numsData)
-// 	fmt.Println(numsData.UserID)
+	decoder.Decode(&numsData)
+	fmt.Println("numsData")
+	fmt.Println(numsData)
+	fmt.Println(numsData.UserID)
 
-// 	token := numsData.UserID // EDIT THIS
-// 	msgtext := fmt.Sprintf("%s%.2f", "Your current point is ", numsData.Point)
+	token := numsData.UserID // EDIT THIS
+	msgtext := fmt.Sprintf("%s%.2f", "Your current point is ", numsData.Point)
 
-// 	c := linenotify.NewClient()
-// 	c.Notify(context.Background(), token, msgtext, "", "", nil)
-// }
+	log.Printf("An error has occurred: " + token + msgtext)
+	// c := linenotify.NewClient()
+	// c.Notify(context.Background(), token, msgtext, "", "", nil)
+}
 
 func main() {
 	fmt.Println("Hello, world.")
