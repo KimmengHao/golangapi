@@ -15,6 +15,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"github.com/utahta/go-linenotify/auth"
+	"github.com/utahta/go-linenotify/token"
 	"google.golang.org/api/iterator"
 )
 
@@ -44,14 +45,34 @@ func Authorize(w http.ResponseWriter, req *http.Request) {
 }
 
 func Callback(w http.ResponseWriter, req *http.Request) {
-	c, err := auth.New(ClientID, BaseURL+"/callback")
+	resp, err := auth.ParseRequest(req)
 	if err != nil {
 		fmt.Fprintf(w, "error:%v", err)
 		return
 	}
-	http.SetCookie(w, &http.Cookie{Name: "state", Value: c.State, Expires: time.Now().Add(60 * time.Second)})
 
-	fmt.Fprintf(w, "callback:")
+	state, err := req.Cookie("state")
+	if err != nil {
+		fmt.Fprintf(w, "error:%v", err)
+		return
+	}
+	if resp.State != state.Value {
+		fmt.Fprintf(w, "error:%v", err)
+		return
+	}
+
+	c := token.NewClient(BaseURL+"/callback", ClientID, ClientSecret)
+	accessToken, err := c.GetAccessToken(context.Background(), resp.Code)
+	if err != nil {
+		fmt.Fprintf(w, "error:%v", err)
+		return
+	}
+	// adddata(accessToken)
+
+	// notify(accesstoken)
+
+	fmt.Fprintf(w, "token:%v", accessToken)
+	// fmt.Fprintf(w, "token:caut")
 }
 
 func adddata(accessToken string) {
